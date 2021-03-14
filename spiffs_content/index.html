@@ -1,0 +1,57 @@
+<html>
+<head>
+    <title>Object Tracker configuration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="jqm.css">
+	<link rel="stylesheet" href="esp32.css">
+    <script src="jq.js"></script>
+    <script src="jqm.js"></script>
+	<script>
+	$(document).ready(function() {
+		$("#set_config").click(function() {
+			var data = {};
+			console.log('ClickFunction');	
+			if(ssid_text.value != '')
+			{
+				var data = {'ssid':ssid_text.value,'pass':pass_text.value};
+				$.ajax({
+				url: 'setConfig',
+				type: 'POST',
+				contentType:'application/json',
+				data: JSON.stringify(data),
+				dataType:'json'
+				});
+			} 
+			else 
+			{
+				var errorText = ''
+				if(ssid_text.value == '') {
+					errorText = 'Missing SSID\n';
+				}
+				alert(errorText);
+			}
+		});
+	});
+	</script>
+</head>
+
+<body>
+    <div data-role="page">
+ 
+        <div data-role="header">
+            <h1>WiFi configuration page</h1>
+        </div><!-- /header -->
+		
+        <div role="main" class="ui-content">
+			<h3>WiFi credentials</h2>
+			<div>
+				<label for="ssid_text">SSID</label>
+				<input type="text" name="ssid_text" id="ssid_text" required>
+				<label for="pass_text">Password</label>
+				<input type="password" name="pass_text" id="pass_text" minlength="8" required>
+				<input type="button" id="set_config" value="SET">
+			</div>
+		</div>
+	</div><!-- /content -->
+	</body>
+</html>
